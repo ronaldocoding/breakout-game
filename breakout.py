@@ -164,13 +164,13 @@ def main():
 
         # text score
         font = pygame.font.Font('DSEG14Classic-Bold.ttf', 70)
-        text = font.render(str(f"{score:03}"), 1, WHITE)
+        text = font.render(str(f"{score:03}"), True, WHITE)
         screen.blit(text, (80, 120))
-        text = font.render(str(balls), 1, WHITE)
+        text = font.render(str(balls), True, WHITE)
         screen.blit(text, (520, 41))
-        text = font.render('000', 1, WHITE)
+        text = font.render('000', True, WHITE)
         screen.blit(text, (580, 120))
-        text = font.render('1', 1, WHITE)
+        text = font.render('1', True, WHITE)
         screen.blit(text, (20, 40))
 
         all_sprites_list.draw(screen)
