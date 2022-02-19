@@ -100,7 +100,7 @@ all_sprites_list.add(paddle)
 all_sprites_list.add(ball)
 
 
-def main():
+def main(score, balls):
     run = True
     while run:
         for event in pygame.event.get():
@@ -124,10 +124,22 @@ def main():
         if ball.rect.x <= wall_width:
             ball.velocity[0] = -ball.velocity[0]
 
+        # collision with floor
         if ball.rect.y > HEIGHT:
             ball.rect.x = WIDTH // 2 - 5
             ball.rect.y = HEIGHT // 2 - 5
             ball.velocity[1] = ball.velocity[1]
+            balls += 1
+
+            # add game over logic
+            if balls == 4:
+                font = pygame.font.Font('DSEG14Classic-Bold.ttf', 70)
+                text = font.render('GAME OVER', True, WHITE)
+                text_rect = text.get_rect(center=(WIDTH / 2, 500))
+                screen.blit(text, text_rect)
+                pygame.display.update()
+                pygame.time.wait(2000)
+                run = False
 
         # collison between ball and paddle
         if pygame.sprite.collide_mask(ball, paddle):
@@ -194,4 +206,4 @@ def main():
     pygame.quit()
 
 
-main()
+main(score, balls)
