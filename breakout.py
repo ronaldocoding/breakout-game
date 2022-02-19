@@ -152,6 +152,15 @@ def main(score, balls):
         for brick in brick_collision_list:
             ball.bounce()
             brick.kill()
+            # sets different score points to different brick colors
+            if 380.5 > brick.rect.y > 338.5:
+                score += 1
+            elif 338.5 > brick.rect.y > 294:
+                score += 3
+            elif 294 > brick.rect.y > 254.5:
+                score += 5
+            else:
+                score += 7
 
         screen.fill(BLACK)
 
