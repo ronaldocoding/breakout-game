@@ -168,6 +168,20 @@ def main():
 
         all_sprites_list.update()
 
+        if ball.rect.y < 40:
+            ball.velocity[1] = -ball.velocity[1]
+
+        if ball.rect.x >= WIDTH - wall_width - 10:
+            ball.velocity[0] = -ball.velocity[0]
+
+        if ball.rect.x <= wall_width:
+            ball.velocity[0] = -ball.velocity[0]
+
+        if ball.rect.y > HEIGHT:
+            ball.rect.x = WIDTH // 2 - 5
+            ball.rect.y = HEIGHT // 2 - 5
+            ball.velocity[1] = ball.velocity[1]
+
         screen.fill(BLACK)
 
         # wall collors 
@@ -190,6 +204,7 @@ def main():
         pygame.draw.line(screen, YELLOW, [(wall_width / 2) - 1, 212.5 + 6 * brick_height + 6 * y_gap], [(wall_width / 2) - 1, 212.5 + 8 * brick_height + 8 * y_gap], wall_width)
         pygame.draw.line(screen, YELLOW, [(WIDTH - wall_width / 2) - 1, 212.5 + 6 * brick_height + 6 * y_gap], [(WIDTH - wall_width / 2) - 1, 212.5 + 8 * brick_height + 8 * y_gap], wall_width)
 
+        # text score
         font = pygame.font.Font('DSEG14Classic-Bold.ttf', 70)
         text = font.render(str(f"{score:03}"), 1, WHITE)
         screen.blit(text, (80, 120))
