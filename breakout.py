@@ -154,6 +154,7 @@ def main(game_score, dropped_balls):
                 text_rect = text.get_rect(center=(WIDTH / 2, 500))
                 screen.blit(text, text_rect)
                 pygame.display.update()
+                game_over_sound.play()
                 pygame.time.wait(2000)
                 run = False
 
