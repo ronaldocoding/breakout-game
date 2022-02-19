@@ -100,7 +100,10 @@ all_sprites_list.add(paddle)
 all_sprites_list.add(ball)
 
 
-def main(score, balls):
+def main(game_score, dropped_balls):
+
+    step = 0
+
     run = True
     while run:
         for event in pygame.event.get():
@@ -129,10 +132,10 @@ def main(score, balls):
             ball.rect.x = WIDTH // 2 - 5
             ball.rect.y = HEIGHT // 2 - 5
             ball.velocity[1] = ball.velocity[1]
-            balls += 1
+            dropped_balls += 1
 
             # add game over logic
-            if balls == 4:
+            if dropped_balls == 4:
                 font = pygame.font.Font('DSEG14Classic-Bold.ttf', 70)
                 text = font.render('GAME OVER', True, WHITE)
                 text_rect = text.get_rect(center=(WIDTH / 2, 500))
@@ -150,17 +153,24 @@ def main(score, balls):
         # collision between ball and bricks
         brick_collision_list = pygame.sprite.spritecollide(ball, all_bricks, False)
         for brick in brick_collision_list:
+            # adds ball speed up mechanics
+            if len(brick_collision_list) > 0:
+                step += 1
+                for i in range(0, 448, 28):  # speeds up ball each 28 points
+                    if step == i:
+                        ball.velocity[0] += 1
+                        ball.velocity[1] += 1
             ball.bounce()
             brick.kill()
             # sets different score points to different brick colors
             if 380.5 > brick.rect.y > 338.5:
-                score += 1
+                game_score += 1
             elif 338.5 > brick.rect.y > 294:
-                score += 3
+                game_score += 3
             elif 294 > brick.rect.y > 254.5:
-                score += 5
+                game_score += 5
             else:
-                score += 7
+                game_score += 7
             # add win game logic
             if len(all_bricks) == 0:
                 font = pygame.font.Font('DSEG14Classic-Bold.ttf', 70)
@@ -207,9 +217,9 @@ def main(score, balls):
 
         # text score
         font = pygame.font.Font('DSEG14Classic-Bold.ttf', 70)
-        text = font.render(str(f"{score:03}"), True, WHITE)
+        text = font.render(str(f"{game_score:03}"), True, WHITE)
         screen.blit(text, (80, 120))
-        text = font.render(str(balls), True, WHITE)
+        text = font.render(str(dropped_balls), True, WHITE)
         screen.blit(text, (520, 41))
         text = font.render('000', True, WHITE)
         screen.blit(text, (580, 120))
