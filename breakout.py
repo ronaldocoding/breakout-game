@@ -149,7 +149,7 @@ def main(game_score, dropped_balls):
 
             # add game over logic
             if dropped_balls == 4:
-                font = pygame.font.Font('DSEG14Classic-Bold.ttf', 70)
+                font = pygame.font.Font('font/retro_gaming.ttf', 70)
                 text = font.render('GAME OVER', True, WHITE)
                 text_rect = text.get_rect(center=(WIDTH / 2, 500))
                 screen.blit(text, text_rect)
@@ -189,7 +189,7 @@ def main(game_score, dropped_balls):
                 game_score += 7
             # add win game logic
             if len(all_bricks) == 0:
-                font = pygame.font.Font('DSEG14Classic-Bold.ttf', 70)
+                font = pygame.font.Font('font/retro_gaming.ttf', 70)
                 text = font.render('SCREEN CLEARED', True, WHITE)
                 text_rect = text.get_rect(center=(WIDTH / 2, 500))
                 all_sprites_list.add(ball)
@@ -233,7 +233,7 @@ def main(game_score, dropped_balls):
                          [(WIDTH - wall_width / 2) - 1, 212.5 + 8 * brick_height + 8 * y_gap], wall_width)
 
         # text score
-        font = pygame.font.Font('DSEG14Classic-Bold.ttf', 70)
+        font = pygame.font.Font('font/retro_gaming.ttf', 70)
         text = font.render(str(f"{game_score:03}"), True, WHITE)
         screen.blit(text, (80, 120))
         text = font.render(str(dropped_balls), True, WHITE)
