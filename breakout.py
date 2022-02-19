@@ -129,6 +129,12 @@ def main():
             ball.rect.y = HEIGHT // 2 - 5
             ball.velocity[1] = ball.velocity[1]
 
+        # collison between ball and paddle
+        if pygame.sprite.collide_mask(ball, paddle):
+            ball.rect.x += ball.velocity[0]
+            ball.rect.y -= ball.velocity[1]
+            ball.bounce()
+
         screen.fill(BLACK)
 
         # wall collors 
