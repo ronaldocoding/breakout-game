@@ -135,6 +135,12 @@ def main():
             ball.rect.y -= ball.velocity[1]
             ball.bounce()
 
+        # collision between ball and bricks
+        brick_collision_list = pygame.sprite.spritecollide(ball, all_bricks, False)
+        for brick in brick_collision_list:
+            ball.bounce()
+            brick.kill()
+
         screen.fill(BLACK)
 
         # wall collors 
