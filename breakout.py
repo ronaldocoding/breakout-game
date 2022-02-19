@@ -1,6 +1,7 @@
 import pygame
 from Brick import Brick
 from Ball import Ball
+from Paddle import Paddle
 
 pygame.init()
 
@@ -30,26 +31,6 @@ paddle_width = 54
 paddle_height = 20
 
 all_sprites_list = pygame.sprite.Group()
-
-
-class Paddle(pygame.sprite.Sprite):
-    def __init__(self, color, width, height):
-        super().__init__()
-        self.image = pygame.Surface([width, height])
-        pygame.draw.rect(self.image, color, [0, 0, width, height])
-        self.rect = self.image.get_rect()
-
-    # paddle moviment
-    def move_right(self, pixels):
-        self.rect.x += pixels
-        if self.rect.x > WIDTH - wall_width - paddle_width:
-            self.rect.x = WIDTH - wall_width - paddle_width
-
-    def move_left(self, pixels):
-        self.rect.x -= pixels
-        if self.rect.x < wall_width:
-            self.rect.x = wall_width
-
 
 ball = Ball(WHITE, 10, 10, velocity)
 ball.rect.x = WIDTH // 2 - 5
@@ -144,9 +125,9 @@ def main():
         
         keys = pygame.key.get_pressed()
         if keys[pygame.K_LEFT]:
-            paddle.move_left(10)
+            paddle.move_left(10, wall_width)
         if keys[pygame.K_RIGHT]:
-            paddle.move_right(10)
+            paddle.move_right(10, WIDTH, wall_width, paddle_width)
 
         all_sprites_list.update()
 
