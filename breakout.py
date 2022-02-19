@@ -5,6 +5,7 @@ from Brick import Brick
 from Paddle import Paddle
 
 pygame.init()
+pygame.mixer.init()
 
 WIDTH = 893
 HEIGHT = 780
@@ -49,6 +50,12 @@ brick_height = 16
 x_gap = 7
 y_gap = 5
 wall_width = 16
+
+brick_sound = pygame.mixer.Sound('sounds/brick.wav')
+paddle_sound = pygame.mixer.Sound('sounds/paddle.wav')
+wall_sound = pygame.mixer.Sound('sounds/wall.wav')
+game_over_sound = pygame.mixer.Sound('sounds/game_over.wav')
+win_game_sound = pygame.mixer.Sound('sounds/win_game.wav')
 
 
 def draw_brick_first_case(color, j):
@@ -118,14 +125,20 @@ def main(game_score, dropped_balls):
 
         all_sprites_list.update()
 
+        # collision with roof
         if ball.rect.y < 40:
             ball.velocity[1] = -ball.velocity[1]
+            wall_sound.play()
 
+        # collision with right wall
         if ball.rect.x >= WIDTH - wall_width - 10:
             ball.velocity[0] = -ball.velocity[0]
+            wall_sound.play()
 
+        # collision with left wall
         if ball.rect.x <= wall_width:
             ball.velocity[0] = -ball.velocity[0]
+            wall_sound.play()
 
         # collision with floor
         if ball.rect.y > HEIGHT:
