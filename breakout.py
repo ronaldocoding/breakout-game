@@ -195,6 +195,7 @@ def main(game_score, dropped_balls):
                 all_sprites_list.add(ball)
                 screen.blit(text, text_rect)
                 pygame.display.update()
+                win_game_sound.play()
                 pygame.time.wait(2000)
                 run = False
 
