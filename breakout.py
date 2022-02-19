@@ -175,6 +175,7 @@ def main(game_score, dropped_balls):
                         ball.velocity[0] += 1
                         ball.velocity[1] += 1
             ball.bounce()
+            brick_sound.play()
             brick.kill()
             # sets different score points to different brick colors
             if 380.5 > brick.rect.y > 338.5:
