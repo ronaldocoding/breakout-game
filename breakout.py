@@ -1,6 +1,7 @@
 import pygame
-from Brick import Brick
+
 from Ball import Ball
+from Brick import Brick
 from Paddle import Paddle
 
 pygame.init()
@@ -35,7 +36,7 @@ all_sprites_list = pygame.sprite.Group()
 ball = Ball(WHITE, 10, 10, velocity)
 ball.rect.x = WIDTH // 2 - 5
 ball.rect.y = HEIGHT // 2 - 5
-    
+
 # creating paddle
 paddle = Paddle(BLUE, paddle_width, paddle_height)
 paddle.rect.x = WIDTH // 2 - paddle_width // 2
@@ -50,62 +51,46 @@ y_gap = 5
 wall_width = 16
 
 
+def draw_brick_first_case(color, j):
+    brick = Brick(color, brick_width, brick_height)
+    brick.rect.x = wall_width
+    brick.rect.y = 215 + j * (y_gap + brick_height)
+    all_sprites_list.add(brick)
+    all_bricks.add(brick)
+
+
+def draw_brick_second_case(color, i, j):
+    brick = Brick(color, brick_width, brick_height)
+    brick.rect.x = wall_width + brick_width + x_gap + (i - 1) * (brick_width + x_gap)
+    brick.rect.y = 215 + j * (y_gap + brick_height)
+    all_sprites_list.add(brick)
+    all_bricks.add(brick)
+
+
 # bricks collors 
 def bricks():
     for j in range(8):
         for i in range(14):
             if j < 2:
                 if i == 0:
-                    brick = Brick(RED, brick_width, brick_height)
-                    brick.rect.x = wall_width
-                    brick.rect.y = 215 + j * (y_gap + brick_height)
-                    all_sprites_list.add(brick)
-                    all_bricks.add(brick)
+                    draw_brick_first_case(RED, j)
                 else:
-                    brick = Brick(RED, brick_width, brick_height)
-                    brick.rect.x = wall_width + brick_width + x_gap + (i - 1) * (brick_width + x_gap)
-                    brick.rect.y = 215 + j * (y_gap + brick_height)
-                    all_sprites_list.add(brick)
-                    all_bricks.add(brick)
+                    draw_brick_second_case(RED, i, j)
             if 1 < j < 4:
                 if i == 0:
-                    brick = Brick(ORANGE, brick_width, brick_height)
-                    brick.rect.x = wall_width
-                    brick.rect.y = 215 + j * (y_gap + brick_height)
-                    all_sprites_list.add(brick)
-                    all_bricks.add(brick)
+                    draw_brick_first_case(ORANGE, j)
                 else:
-                    brick = Brick(ORANGE, brick_width, brick_height)
-                    brick.rect.x = wall_width + brick_width + x_gap + (i - 1) * (brick_width + x_gap)
-                    brick.rect.y = 215 + j * (y_gap + brick_height)
-                    all_sprites_list.add(brick)
-                    all_bricks.add(brick)
+                    draw_brick_second_case(ORANGE, i, j)
             if 3 < j < 6:
                 if i == 0:
-                    brick = Brick(GREEN, brick_width, brick_height)
-                    brick.rect.x = wall_width
-                    brick.rect.y = 215 + j * (y_gap + brick_height)
-                    all_sprites_list.add(brick)
-                    all_bricks.add(brick)
+                    draw_brick_first_case(GREEN, j)
                 else:
-                    brick = Brick(GREEN, brick_width, brick_height)
-                    brick.rect.x = wall_width + brick_width + x_gap + (i - 1) * (brick_width + x_gap)
-                    brick.rect.y = 215 + j * (y_gap + brick_height)
-                    all_sprites_list.add(brick)
-                    all_bricks.add(brick)
-            if 5 < j < 8: 
+                    draw_brick_second_case(GREEN, i, j)
+            if 5 < j < 8:
                 if i == 0:
-                    brick = Brick(YELLOW, brick_width, brick_height)
-                    brick.rect.x = wall_width
-                    brick.rect.y = 215 + j * (y_gap + brick_height)
-                    all_sprites_list.add(brick)
-                    all_bricks.add(brick)
+                    draw_brick_first_case(YELLOW, j)
                 else:
-                    brick = Brick(YELLOW, brick_width, brick_height)
-                    brick.rect.x = wall_width + brick_width + x_gap + (i - 1) * (brick_width + x_gap)
-                    brick.rect.y = 215 + j * (y_gap + brick_height)
-                    all_sprites_list.add(brick)
-                    all_bricks.add(brick)
+                    draw_brick_second_case(YELLOW, i, j)
     return True
 
 
@@ -116,13 +101,12 @@ all_sprites_list.add(ball)
 
 
 def main():
-
     run = True
     while run:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
-        
+
         keys = pygame.key.get_pressed()
         if keys[pygame.K_LEFT]:
             paddle.move_left(10, wall_width)
