@@ -161,6 +161,16 @@ def main(score, balls):
                 score += 5
             else:
                 score += 7
+            # add win game logic
+            if len(all_bricks) == 0:
+                font = pygame.font.Font('DSEG14Classic-Bold.ttf', 70)
+                text = font.render('SCREEN CLEARED', True, WHITE)
+                text_rect = text.get_rect(center=(WIDTH / 2, 500))
+                all_sprites_list.add(ball)
+                screen.blit(text, text_rect)
+                pygame.display.update()
+                pygame.time.wait(2000)
+                run = False
 
         screen.fill(BLACK)
 
