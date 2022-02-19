@@ -1,5 +1,6 @@
 import pygame
 from Brick import Brick
+from Ball import Ball
 
 pygame.init()
 
@@ -50,25 +51,7 @@ class Paddle(pygame.sprite.Sprite):
             self.rect.x = wall_width
 
 
-class Ball(pygame.sprite.Sprite):
-
-    def __init__(self, color, width, height):
-        super().__init__()
-        self.image = pygame.Surface([width, height])
-        pygame.draw.rect(self.image, color, [0, 0, width, height])
-        self.rect = self.image.get_rect()
-        self.velocity = [velocity, velocity]
-
-    def update(self):
-        self.rect.x += self.velocity[0]
-        self.rect.y += self.velocity[1]
-
-    def bounce(self):
-        self.velocity[0] = self.velocity[0]
-        self.velocity[1] = -self.velocity[1]
-
-
-ball = Ball(WHITE, 10, 10)
+ball = Ball(WHITE, 10, 10, velocity)
 ball.rect.x = WIDTH // 2 - 5
 ball.rect.y = HEIGHT // 2 - 5
     
