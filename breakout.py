@@ -20,6 +20,10 @@ ORANGE = (183, 119, 0)
 GREEN = (0, 127, 33)
 YELLOW = (197, 199, 37)
 
+score = 0
+balls = 1
+velocity = 4
+
 paddle_width = 54
 paddle_height = 20
 
@@ -40,6 +44,38 @@ class Paddle(pygame.sprite.Sprite):
         pygame.draw.rect(self.image, color, [0, 0, width, height])
         self.rect = self.image.get_rect()
 
+    # paddle moviment
+    def moveRight(self, pixels):
+        self.rect.x += pixels
+        if self.rect.x > WIDTH - wall_width - paddle_width:
+            self.rect.x = WIDTH - wall_width - paddle_width
+
+    def moveLeft(self, pixels):
+        self.rect.x -= pixels
+        if self.rect.x < wall_width:
+            self.rect.x = wall_width
+
+class Ball(pygame.sprite.Sprite):
+
+    def __init__(self, color, width, height):
+        super().__init__()
+        self.image = pygame.Surface([width, height])
+        pygame.draw.rect(self.image, color, [0, 0, width, height])
+        self.rect = self.image.get_rect()
+        self.velocity = [velocity, velocity]
+
+    def update(self):
+        self.rect.x += self.velocity[0]
+        self.rect.y += self.velocity[1]
+
+    def bounce(self):
+        self.velocity[0] = self.velocity[0]
+        self.velocity[1] = -self.velocity[1]
+
+ball = Ball(WHITE, 10, 10)
+ball.rect.x = WIDTH // 2 - 5
+ball.rect.y = HEIGHT // 2 - 5
+    
 # creating paddle
 paddle = Paddle(BLUE, paddle_width, paddle_height)
 paddle.rect.x = WIDTH // 2 - paddle_width // 2
@@ -114,10 +150,9 @@ def bricks():
 brick_wall = bricks()
 
 all_sprites_list.add(paddle)
+all_sprites_list.add(ball)
 
 def main():
-
-    clock.tick(FPS)
 
     run = True
     while run:
@@ -125,6 +160,12 @@ def main():
             if event.type == pygame.QUIT:
                 run = False
         
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_LEFT]:
+            paddle.moveLeft(10)
+        if keys[pygame.K_RIGHT]:
+            paddle.moveRight(10)
+
         all_sprites_list.update()
 
         screen.fill(BLACK)
@@ -149,9 +190,21 @@ def main():
         pygame.draw.line(screen, YELLOW, [(wall_width / 2) - 1, 212.5 + 6 * brick_height + 6 * y_gap], [(wall_width / 2) - 1, 212.5 + 8 * brick_height + 8 * y_gap], wall_width)
         pygame.draw.line(screen, YELLOW, [(WIDTH - wall_width / 2) - 1, 212.5 + 6 * brick_height + 6 * y_gap], [(WIDTH - wall_width / 2) - 1, 212.5 + 8 * brick_height + 8 * y_gap], wall_width)
 
+        font = pygame.font.Font('DSEG14Classic-Bold.ttf', 70)
+        text = font.render(str(f"{score:03}"), 1, WHITE)
+        screen.blit(text, (80, 120))
+        text = font.render(str(balls), 1, WHITE)
+        screen.blit(text, (520, 41))
+        text = font.render('000', 1, WHITE)
+        screen.blit(text, (580, 120))
+        text = font.render('1', 1, WHITE)
+        screen.blit(text, (20, 40))
+
         all_sprites_list.draw(screen)
 
         pygame.display.update()
+
+        clock.tick(FPS)
 
     pygame.quit()
     
