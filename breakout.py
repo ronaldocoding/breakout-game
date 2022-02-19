@@ -162,6 +162,7 @@ def main(game_score, dropped_balls):
             ball.rect.x += ball.velocity[0]
             ball.rect.y -= ball.velocity[1]
             ball.bounce()
+            paddle_sound.play()
 
         # collision between ball and bricks
         brick_collision_list = pygame.sprite.spritecollide(ball, all_bricks, False)
