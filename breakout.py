@@ -30,7 +30,7 @@ score = 0
 balls = 1
 velocity = 4
 
-paddle_width = 80
+paddle_width = 893
 paddle_height = 20
 
 all_sprites_list = pygame.sprite.Group()
@@ -109,9 +109,11 @@ all_sprites_list.add(ball)
 
 roof_collisions_number = 0
 
+start = False
+
 
 def main(game_score, dropped_balls):
-    global roof_collisions_number, paddle, paddle_width
+    global roof_collisions_number, paddle, paddle_width, start
 
     step = 0
 
@@ -126,6 +128,14 @@ def main(game_score, dropped_balls):
             paddle.move_left(10, wall_width)
         if keys[pygame.K_RIGHT]:
             paddle.move_right(10, WIDTH, wall_width, paddle_width)
+        if keys[pygame.K_SPACE]:
+            start = True
+            all_sprites_list.remove(paddle)
+            paddle_width = 80
+            paddle = Paddle(BLUE, paddle_width, paddle_height)
+            paddle.rect.x = WIDTH // 2 - paddle_width // 2
+            paddle.rect.y = HEIGHT - 65
+            all_sprites_list.add(paddle)
 
         all_sprites_list.update()
 
@@ -183,32 +193,34 @@ def main(game_score, dropped_balls):
         # collision between ball and bricks
         brick_collision_list = pygame.sprite.spritecollide(ball, all_bricks, False)
         for brick in brick_collision_list:
-            # adds ball speed up mechanics
-            if len(brick_collision_list) > 0:
-                step += 1
-                for i in range(0, 448, 18):  # speeds up ball progressively
-                    if step == i:
-                        if ball.velocity[0] > 0:
-                            ball.velocity[0] += 1
-                        else:
-                            ball.velocity[0] -= 1
-                        if ball.velocity[1] > 0:
-                            ball.velocity[1] += 1
-                        else:
-                            ball.velocity[1] -= 1
-                        break
+            if start:
+                brick.kill()
+                # adds ball speed up mechanics
+                if len(brick_collision_list) > 0:
+                    step += 1
+                    for i in range(0, 448, 18):  # speeds up ball progressively
+                        if step == i:
+                            if ball.velocity[0] > 0:
+                                ball.velocity[0] += 1
+                            else:
+                                ball.velocity[0] -= 1
+                            if ball.velocity[1] > 0:
+                                ball.velocity[1] += 1
+                            else:
+                                ball.velocity[1] -= 1
+                            break
             ball.bounce()
             brick_sound.play()
-            brick.kill()
             # sets different score points to different brick colors
-            if 380.5 > brick.rect.y > 338.5:
-                game_score += 1
-            elif 338.5 > brick.rect.y > 294:
-                game_score += 3
-            elif 294 > brick.rect.y > 254.5:
-                game_score += 5
-            else:
-                game_score += 7
+            if start:
+                if 380.5 > brick.rect.y > 338.5:
+                    game_score += 1
+                elif 338.5 > brick.rect.y > 294:
+                    game_score += 3
+                elif 294 > brick.rect.y > 254.5:
+                    game_score += 5
+                else:
+                    game_score += 7
             # add win game logic
             if len(all_bricks) == 0:
                 font = pygame.font.Font(os.path.join(os.getcwd(), 'font', 'retro_gaming.ttf'), 70)
@@ -264,6 +276,15 @@ def main(game_score, dropped_balls):
         screen.blit(text, (580, 120))
         text = font.render('1', True, WHITE)
         screen.blit(text, (20, 40))
+
+        if not start:
+            text = font.render('PRESS SPACE', True, WHITE)
+            text_rect = text.get_rect(center=(WIDTH / 2, 500))
+            screen.blit(text, text_rect)
+            text = font.render('TO START', True, WHITE)
+            text_rect = text.get_rect(center=(WIDTH / 2, 600))
+            screen.blit(text, text_rect)
+
         all_sprites_list.draw(screen)
 
         pygame.display.update()
