@@ -107,8 +107,11 @@ brick_wall = bricks()
 all_sprites_list.add(paddle)
 all_sprites_list.add(ball)
 
+red_bricks_collisions_number = 0
+
 
 def main(game_score, dropped_balls):
+    global red_bricks_collisions_number, paddle, paddle_width
 
     step = 0
 
@@ -187,6 +190,17 @@ def main(game_score, dropped_balls):
             elif 294 > brick.rect.y > 254.5:
                 game_score += 5
             else:
+                red_bricks_collisions_number += 1
+                if red_bricks_collisions_number == 1:
+                    # change paddle width
+                    all_sprites_list.remove(paddle)
+                    paddle_width //= 2
+                    previou_x = paddle.rect.x
+                    previou_y = paddle.rect.y
+                    paddle = Paddle(BLUE, paddle_width, paddle_height)
+                    paddle.rect.x = previou_x + paddle_width // 2
+                    paddle.rect.y = previou_y
+                    all_sprites_list.add(paddle)
                 game_score += 7
             # add win game logic
             if len(all_bricks) == 0:
