@@ -191,7 +191,7 @@ def main(game_score, dropped_balls):
             # add win game logic
             if len(all_bricks) == 0:
                 font = pygame.font.Font(os.path.join(os.getcwd(), 'font', 'retro_gaming.ttf'), 70)
-                text = font.render('SCREEN CLEARED', True, WHITE)
+                text = font.render('YOU WON!', True, WHITE)
                 text_rect = text.get_rect(center=(WIDTH / 2, 500))
                 all_sprites_list.add(ball)
                 screen.blit(text, text_rect)
