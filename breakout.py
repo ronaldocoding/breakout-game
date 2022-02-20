@@ -1,4 +1,5 @@
 import pygame
+import os
 
 from Ball import Ball
 from Brick import Brick
@@ -51,11 +52,11 @@ x_gap = 7
 y_gap = 5
 wall_width = 16
 
-brick_sound = pygame.mixer.Sound('sounds/brick.wav')
-paddle_sound = pygame.mixer.Sound('sounds/paddle.wav')
-wall_sound = pygame.mixer.Sound('sounds/wall.wav')
-game_over_sound = pygame.mixer.Sound('sounds/game_over.wav')
-win_game_sound = pygame.mixer.Sound('sounds/win_game.wav')
+brick_sound = pygame.mixer.Sound(os.path.join(os.getcwd(), 'sounds', 'brick.wav'))
+paddle_sound = pygame.mixer.Sound(os.path.join(os.getcwd(), 'sounds', 'paddle.wav'))
+wall_sound = pygame.mixer.Sound(os.path.join(os.getcwd(), 'sounds', 'wall.wav'))
+game_over_sound = pygame.mixer.Sound(os.path.join(os.getcwd(), 'sounds', 'game_over.wav'))
+win_game_sound = pygame.mixer.Sound(os.path.join(os.getcwd(), 'sounds', 'win_game.wav'))
 
 
 def draw_brick_first_case(color, j):
@@ -149,7 +150,7 @@ def main(game_score, dropped_balls):
 
             # add game over logic
             if dropped_balls == 4:
-                font = pygame.font.Font('font/retro_gaming.ttf', 70)
+                font = pygame.font.Font(os.path.join(os.getcwd(), 'font', 'retro_gaming.ttf'), 70)
                 text = font.render('GAME OVER', True, WHITE)
                 text_rect = text.get_rect(center=(WIDTH / 2, 500))
                 screen.blit(text, text_rect)
@@ -189,7 +190,7 @@ def main(game_score, dropped_balls):
                 game_score += 7
             # add win game logic
             if len(all_bricks) == 0:
-                font = pygame.font.Font('font/retro_gaming.ttf', 70)
+                font = pygame.font.Font(os.path.join(os.getcwd(), 'font', 'retro_gaming.ttf'), 70)
                 text = font.render('SCREEN CLEARED', True, WHITE)
                 text_rect = text.get_rect(center=(WIDTH / 2, 500))
                 all_sprites_list.add(ball)
@@ -233,7 +234,7 @@ def main(game_score, dropped_balls):
                          [(WIDTH - wall_width / 2) - 1, 212.5 + 8 * brick_height + 8 * y_gap], wall_width)
 
         # text score
-        font = pygame.font.Font('font/retro_gaming.ttf', 70)
+        font = pygame.font.Font(os.path.join(os.getcwd(), 'font', 'retro_gaming.ttf'), 70)
         text = font.render(str(f"{game_score:03}"), True, WHITE)
         screen.blit(text, (80, 120))
         text = font.render(str(dropped_balls), True, WHITE)
