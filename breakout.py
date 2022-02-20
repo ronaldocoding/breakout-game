@@ -30,7 +30,7 @@ score = 0
 balls = 1
 velocity = 4
 
-paddle_width = 54
+paddle_width = 80
 paddle_height = 20
 
 all_sprites_list = pygame.sprite.Group()
@@ -186,10 +186,17 @@ def main(game_score, dropped_balls):
             # adds ball speed up mechanics
             if len(brick_collision_list) > 0:
                 step += 1
-                for i in range(0, 448, 28):  # speeds up ball each 28 points
+                for i in range(0, 448, 18):  # speeds up ball progressively
                     if step == i:
-                        ball.velocity[0] += 1
-                        ball.velocity[1] += 1
+                        if ball.velocity[0] > 0:
+                            ball.velocity[0] += 1
+                        else:
+                            ball.velocity[0] -= 1
+                        if ball.velocity[1] > 0:
+                            ball.velocity[1] += 1
+                        else:
+                            ball.velocity[1] -= 1
+                        break
             ball.bounce()
             brick_sound.play()
             brick.kill()
@@ -257,7 +264,6 @@ def main(game_score, dropped_balls):
         screen.blit(text, (580, 120))
         text = font.render('1', True, WHITE)
         screen.blit(text, (20, 40))
-
         all_sprites_list.draw(screen)
 
         pygame.display.update()
